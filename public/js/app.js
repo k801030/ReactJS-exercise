@@ -52,11 +52,23 @@ var CommentList = React.createClass({displayName: 'CommentList',
 
 // commentForm
 var CommentForm = React.createClass({displayName: 'CommentForm',
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
+    if(!text || !author){  
+      return;
+    }
+    // TODO: send request to the server
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
+    return;
+  },
   render: function() {
     return(
-      React.createElement('form',{className:'commentForm'},
-        React.createElement('input',{type:'text', placeholder:'Your name'}),
-        React.createElement('input',{type:'text', placeholder:'Sya something...'}),
+      React.createElement('form',{className:'commentForm', onSubmit:this.handleSubmit},
+        React.createElement('input',{type:'text', placeholder:'Your name', ref:'author'}),
+        React.createElement('input',{type:'text', placeholder:'Say something...', ref:'text'}),
         React.createElement('input',{className:'btn', type:'submit', value:'Post'})
       )
     );
