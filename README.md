@@ -2,16 +2,15 @@
 
 This is an exercise program for ReactJS.
 
-## What I have used.
+### What I have used.
 
 + gulp 
 + nodemon
 + brower-sync
 + express 
+ 
 
-*** 
-
-## react
+### ReactJS used.
   * composable.
   * props
   * Markdown
