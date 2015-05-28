@@ -1,39 +1,57 @@
-React.render(
-  React.createElement('p', null, 'Hello, world!'),
-  document.getElementById('welcome')
-);
-
+/* Custom Components */
 
 // comment box
-var commentBox = React.createClass({displayName: 'CommentBox',
+var CommentBox = React.createClass({displayName: 'CommentBox',
+  loadCommentsFromServer: function(){
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer,this.props.pollInterval);
+  },
   render: function() {
     return(
       React.createElement('div', {className: "commentBox"}, 
-        React.createElement(commentList),
-        React.createElement(commentForm)
+        React.createElement(CommentList, {data: this.state.data}),
+        React.createElement(CommentForm)
       )
     );
   }
 });
 
 // commentList
-var commentList = React.createClass({displayName: 'CommentList',
+var CommentList = React.createClass({displayName: 'CommentList',
   render: function() {
+    var commentNodes = this.props.data.map(function(comment) {
+      return(
+        React.createElement(Comment, {author: comment.author},
+          comment.text
+        )
+      )
+    });
     return(
       React.createElement('div', {className: "commentList"},
-        React.createElement(comment, {author: "Vison"},
-          "Hello, I am Vison."
-        ),
-        React.createElement(comment, {author: "Jessy"},
-          "Nice to meet you."
-        )
+        commentNodes
       )
     );
   }  
 })
 
 // commentForm
-var commentForm = React.createClass({displayName: 'CommentForm',
+var CommentForm = React.createClass({displayName: 'CommentForm',
   render: function() {
     return(
       React.createElement('div', {className: "commentForm"})
@@ -43,20 +61,24 @@ var commentForm = React.createClass({displayName: 'CommentForm',
 
 
 // comments
-var comment = React.createClass({displayName: 'Comment',
+var Comment = React.createClass({displayName: 'Comment',
   render: function() {
+    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
     return(
       React.createElement('div', {className: 'comment'},
         React.createElement('h2', {className: 'commentAuthor'},
           this.props.author
         ),
-        this.props.children
+        React.createElement('span', {dangerouslySetInnerHTML: {__html: rawMarkup}}
+        )
       )
     );
   }
 })
 
+
+
 React.render(
-  React.createElement(commentBox, null),
+  React.createElement(CommentBox, {url: "../comments.json", pollInterval:2000}),
   document.getElementById('content')
 );
