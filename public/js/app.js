@@ -54,7 +54,11 @@ var CommentList = React.createClass({displayName: 'CommentList',
 var CommentForm = React.createClass({displayName: 'CommentForm',
   render: function() {
     return(
-      React.createElement('div', {className: "commentForm"})
+      React.createElement('form',{className:'commentForm'},
+        React.createElement('input',{type:'text', placeholder:'Your name'}),
+        React.createElement('input',{type:'text', placeholder:'Sya something...'}),
+        React.createElement('input',{className:'btn', type:'submit', value:'Post'})
+      )
     );
   }  
 })

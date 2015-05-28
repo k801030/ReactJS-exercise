@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+form > input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c6c6c6;
+  border-radius: 3px;
+  margin: 5px 0 5px 0;
+}
+
+input.btn {
+  background-color: #fff;
+}
+
+input.btn:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
