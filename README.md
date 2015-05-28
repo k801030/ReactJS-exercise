@@ -1,17 +1,19 @@
-== development document ==
+# Development Document
+=============
+This is an exercise program for ReactJS.
 
-# gulp 
+## What I have used.
 
-# nodemon
++ gulp 
++ nodemon
++ brower-sync
++ express 
 
-# brower-sync
+*** 
 
-# express 
-
-
-react: 
-  composable.
-  props
-  Markdown
-  state
-  bind
+## react
+  * composable.
+  * props
+  * Markdown
+  * state
+  * bind
